@@ -69,6 +69,8 @@ class PhoneNumber {
         try {
             return phoneUtil.parse(number, iso2);
         } catch (err) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             console.log(`Exception was thrown: ${err.toString()}`);
             return null;
         }
