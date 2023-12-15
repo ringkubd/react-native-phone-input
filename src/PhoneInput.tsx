@@ -1,9 +1,8 @@
 import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies, no-use-before-define
 import {
-    Image, TextInput, TouchableOpacity, View
+    TextInput, View
 } from 'react-native';
 import Country from './country';
-import Flags from './resources/flags';
 import PhoneNumber from './PhoneNumber';
 import styles from './styles';
 import CountryPicker from './CountryPicker';
@@ -73,20 +72,10 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
         this.updateValue(number, actionAfterSetState);
     }
 
-    onPressFlag = () => {
-        if (this.props.onPressFlag) {
-            this.props.onPressFlag();
-        } else {
-            if (this.state.iso2) this.picker.selectCountry(this.state.iso2);
-            this.picker.show();
-        }
-    }
-
     // eslint-disable-next-line class-methods-use-this
     getPickerData() {
         return PhoneNumber.getAllCountries().map((country, index) => ({
             key: index,
-            image: Flags.get(country.iso2),
             label: country.name,
             dialCode: `+${country.dialCode}`,
             iso2: country.iso2
@@ -104,7 +93,6 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
     }
 
     // eslint-disable-next-line class-methods-use-this
-    getFlag = (iso2) => Flags.get(iso2);
 
     getDialCode() {
         return PhoneNumber.getDialCode(this.state.value);
@@ -223,26 +211,6 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
         const TextComponent: any = this.props.textComponent || TextInput;
         return (
             <View style={[styles.container, this.props.style]}>
-                <TouchableOpacity
-                    onPress={this.onPressFlag}
-                    disabled={disabled}
-                    accessibilityRole="imagebutton"
-                    accessibilityLabel={country ? country.name : iso2}
-                >
-                    {this.props.renderFlag ? (
-                        <>
-                            {this.props.renderFlag({
-                                imageSource: Flags.get(iso2),
-                            })}
-                        </>
-                    ) : (
-                        <Image
-                            accessibilityIgnoresInvertColors={true}
-                            source={Flags.get(iso2)}
-                            style={[styles.flag, this.props.flagStyle]}
-                        />
-                    )}
-                </TouchableOpacity>
                 <View style={{ flex: 1, marginLeft: this.props.offset || 10 }}>
                     <TextComponent
                         ref={(ref) => {

@@ -9,9 +9,7 @@ import {
     StyleProp,
     ViewStyle as ViewStyleRaw,
     TextStyle as TextStyleRaw,
-    TextInput,
-    ImageRequireSource,
-    ImageStyle,
+    TextInput
 } from 'react-native';
 
 export type ViewStyle = StyleProp<ViewStyleRaw>;
@@ -27,7 +25,6 @@ export interface CountriesListItem {
 
 export interface PickerData {
     key: number;
-    image: ImageRequireSource;
     label: CountriesListItem['name'];
     dialCode: CountriesListItem['dialCode'];
     iso2: CountriesListItem['iso2'];
@@ -82,10 +79,6 @@ export interface ReactNativePhoneInputProps<TextComponentType extends React.Comp
      * Custom styles to be applied if supplied
      */
     style?: ViewStyle;
-    /**
-     * Custom styles for flag image eg. {{width: 50, height: 30, borderWidth:0}}
-     */
-    flagStyle?: ImageStyle;
     /**
      * Custom styles for phone number text input eg. {{fontSize: 14}}
      */
@@ -143,10 +136,6 @@ export interface ReactNativePhoneInputProps<TextComponentType extends React.Comp
      */
     onSelectCountry?: (iso2: string) => void;
     /**
-     * Function to be invoked when press on flag image
-     */
-    onPressFlag?: () => void;
-    /**
      * Custom countries list
      */
     countriesList?: ReadonlyArray<CountriesListItem>;
@@ -158,10 +147,6 @@ export interface ReactNativePhoneInputProps<TextComponentType extends React.Comp
      * Function to be invoked when confirming country picker selection
      */
     onPressConfirm?: () => void;
-    /**
-     * Render function to replace the default flag
-     */
-    renderFlag?: ({ imageSource }: { imageSource: number }) => Element;
 }
 
 export default class ReactNativePhoneInput<
@@ -183,11 +168,6 @@ export default class ReactNativePhoneInput<
     * Return current phone number without display format
     */
     getValue: () => string;
-
-    /**
-    * Return flag image
-    */
-    getFlag: (iso2: string) => ImageRequireSource;
 
     /**
     * Return country object in country picker
